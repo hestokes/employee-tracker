@@ -15,14 +15,26 @@ const db = mysql.createConnection(
     host: "localhost",
     user: "root",
     password: "password",
-    //enter name of your database in the database: "here"
+    //Name of database
     database: "employeetrackerDB",
   },
   console.log("Connected to the employeetrackerDb!")
 );
+//Get a single employee
+db.query(`SELECT * FROM employee WHERE id = 1`, (err, rows) => {
+  console.log(rows);
+});
 
 app.use((req, res) => {
   res.status(404).end();
+});
+
+//Delete employee
+db.query("DELETE FROM employee WHERE id = ?", 0, (err, result) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log(result);
 });
 
 app.listen(PORT, () => {
