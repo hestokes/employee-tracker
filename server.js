@@ -1,5 +1,7 @@
 const mysql = require("mysql2");
 const express = require("express");
+const consoleTable = require("console.table");
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -16,7 +18,7 @@ const db = mysql.createConnection(
     //enter name of your database in the database: "here"
     database: "employeetrackerDB",
   },
-  console.log("Connected to the EmployeetrackerDb!")
+  console.log("Connected to the employeetrackerDb!")
 );
 
 app.use((req, res) => {
