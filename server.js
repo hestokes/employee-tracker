@@ -14,42 +14,10 @@ const db = mysql.createConnection(
     user: "root",
     password: "password",
     //enter name of your database in the database: "here"
-    database: "",
+    database: "employeetrackerDB",
   },
-  console.log("connected to the database")
+  console.log("Connected to the EmployeetrackerDb!")
 );
-
-//request to see all candidates
-// db.query(`SELECT * FROM candidates`, (err, rows) => {
-//   console.log(rows);
-// });
-
-//request to see a single candidate
-// db.query(`SELECT * FROM candidates WHERE id = 1`, (err, rows) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(rows);
-// });
-
-//Delete a candidate
-// db.query(`DELETE FROM candidates WHERE id = ?`, 1, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result);
-// });
-
-//Create a candidate
-// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) VALUES (?,?,?,?)`;
-// const params = [1, "Ronald", "Firbank", 1];
-
-// db.query(sql, params, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result);
-// });
 
 app.use((req, res) => {
   res.status(404).end();
