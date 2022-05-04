@@ -6,7 +6,7 @@ require("console.table");
 
 const connection = mysql.createConnection({
   host: "localhost",
-  port: 3000,
+  port: 3001,
   user: "root",
   password: process.env.password,
   database: "employeetrackerDB;",
@@ -295,12 +295,248 @@ addAnEmployee = () => {
   });
 };
 
-updateAnEmployeeRole 
-updateAnEmployeeManager;
-removeDepartment;
-removeRole;
-removeEmploy;
-viewDepartmentSalary;
+updateAnEmployeeRole = () => {
+  connection.query(`SELECT * FROM role;`, (err, res) => {
+    if (err) throw err;
+    let roles = res.map((role) => ({ name: role.title, value: role.role_id }));
+    connection.query(`SELECT * FROM employee;`, (err, res) => {
+      if (err) throw err;
+      let employees = res.map((employee) => ({
+        name: employee.first_name + " " + employee.last_name,
+        value: employee.employee_id,
+      }));
+      inquirer
+        .prompt([
+          {
+            name: "employee",
+            type: "rawlist",
+            message: "Which team member is getting an updated role?",
+            choices: employees,
+          },
+          {
+            name: "newRole",
+            type: "rawlist",
+            message: "What is the lucky team member's new role?",
+            choices: roles,
+          },
+        ])
+        .then((response) => {
+          connection.query(
+            `UPDATE employee SET ? WHERE ?`,
+            [
+              {
+                role_id: response.newRole,
+              },
+              {
+                employee_id: response.employee,
+              },
+            ],
+            (err, res) => {
+              if (err) throw err;
+              console.log(
+                `\n Successfully updated employee's role in the database! \n`
+              );
+              startAdding();
+            }
+          );
+        });
+    });
+  });
+};
+
+updateAnEmployeeManager = () => {
+  connection.query(`SELECT * FROM employee;`, (err, res) => {
+    if (err) throw err;
+    let employees = res.map((employee) => ({
+      name: employee.first_name + " " + employee.last_name,
+      value: employee.employee_id,
+    }));
+    inquirer
+      .prompt([
+        {
+          name: "employee",
+          type: "rawlist",
+          message: "Which team member is getting a Manager update?",
+          choices: employees,
+        },
+        {
+          name: "newManager",
+          type: "rawlist",
+          message: "Who should the team members's new manager be?",
+          choices: employees,
+        },
+      ])
+      .then((response) => {
+        connection.query(
+          `UPDATE employee SET ? WHERE ?`,
+          [
+            {
+              manager_id: response.newManager,
+            },
+            {
+              employee_id: response.employee,
+            },
+          ],
+          (err, res) => {
+            if (err) throw err;
+            console.log(
+              `\n Successfully updated employee's manager in the database! \n`
+            );
+            startAdding();
+          }
+        );
+      });
+  });
+};
+
+removeDepartment = () => {
+  connection.query(
+    `SELECT * FROM department ORDER BY department_id ASC;`,
+    (err, res) => {
+      if (err) throw err;
+      let departments = res.map((department) => ({
+        name: department.department_name,
+        value: department.department_id,
+      }));
+      inquirer
+        .prompt([
+          {
+            name: "deptName",
+            type: "rawlist",
+            message: "Which department would you like to remove?",
+            choices: departments,
+          },
+        ])
+        .then((response) => {
+          connection.query(
+            `DELETE FROM department WHERE ?`,
+            [
+              {
+                department_id: response.deptName,
+              },
+            ],
+            (err, res) => {
+              if (err) throw err;
+              console.log(
+                `\n Successfully removed the department from this world! \n`
+              );
+              startAdding();
+            }
+          );
+        });
+    }
+  );
+};
+
+removeRole = () => {
+  connection.query(`SELECT * FROM role ORDER BY role_id ASC;`, (err, res) => {
+    if (err) throw err;
+    let roles = res.map((role) => ({ name: role.title, value: role.role_id }));
+    inquirer
+      .prompt([
+        {
+          name: "title",
+          type: "rawlist",
+          message: "Which role would you like to remove?",
+          choices: roles,
+        },
+      ])
+      .then((response) => {
+        connection.query(
+          `DELETE FROM role WHERE ?`,
+          [
+            {
+              role_id: response.title,
+            },
+          ],
+          (err, res) => {
+            if (err) throw err;
+            console.log(`\n Successfully removed the role from this world! \n`);
+            startAdding();
+          }
+        );
+      });
+  });
+};
+
+removeEmploy = () => {
+  connection.query(
+    `SELECT * FROM employee ORDER BY employee_id ASC;`,
+    (err, res) => {
+      if (err) throw err;
+      let employees = res.map((employee) => ({
+        name: employee.first_name + " " + employee.last_name,
+        value: employee.employee_id,
+      }));
+      inquirer
+        .prompt([
+          {
+            name: "employee",
+            type: "rawlist",
+            message: "Which employee would you like to remove?",
+            choices: employees,
+          },
+        ])
+        .then((response) => {
+          connection.query(
+            `DELETE FROM employee WHERE ?`,
+            [
+              {
+                employee_id: response.employee,
+              },
+            ],
+            (err, res) => {
+              if (err) throw err;
+              console.log(
+                `\n Successfully removed the team member from the team! \n`
+              );
+              startAdding();
+            }
+          );
+        });
+    }
+  );
+};
+
+viewDepartmentSalary = () => {
+  connection.query(
+    `SELECT * FROM department ORDER BY department_id ASC;`,
+    (err, res) => {
+      if (err) throw err;
+      let departments = res.map((department) => ({
+        name: department.department_name,
+        value: department.department_id,
+      }));
+      inquirer
+        .prompt([
+          {
+            name: "deptName",
+            type: "rawlist",
+            message: "Which department's total salary would you like review'?",
+            choices: departments,
+          },
+        ])
+        .then((response) => {
+          connection.query(
+            `SELECT department_id, SUM(role.salary) AS total_salary FROM role WHERE ?`,
+            [
+              {
+                department_id: response.deptName,
+              },
+            ],
+            (err, res) => {
+              if (err) throw err;
+              console.log(
+                `\n The current total salary of the ${response.deptName} department is $ \n`
+              );
+              console.table("\n", res, "\n");
+              startAdding();
+            }
+          );
+        });
+    }
+  );
+};
 
 // const PORT = process.env.PORT || 3001;
 // const app = express();
