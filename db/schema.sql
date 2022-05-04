@@ -1,15 +1,20 @@
+DROP DATABASE IF EXISTS employeetrackerDB;
+CREATE DATABASE employeetrackerDB;
+USE employeetrackerDB;
+
+
+
 CREATE TABLE department (
-    id INTEGER AUTO_INCREMENT, 
-    department_name VARCHAR(30) NOT NULL,
-    PRIMARY KEY (id)
+    department_id INTEGER AUTO_INCREMENT PRIMARY KEY, 
+    department_name VARCHAR(30)
 );
 
 CREATE TABLE role (
-    id INTEGER AUTO_INCREMENT, 
-    title VARCHAR(30) NOT NULL,
-    salary DECIMAL(10,2) NOT NULL,
-    department_id INTEGER NOT NULL,
-    PRIMARY KEY (id)
+    role_id INTEGER AUTO_INCREMENT PRIMARY KEY, 
+    title VARCHAR(30),
+    salary DECIMAL(10,2),
+    department_id INTEGER,
+    CONSTRAINT 
 );
 
 CREATE TABLE employee (
@@ -17,6 +22,9 @@ CREATE TABLE employee (
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL,
-    manager_id INTEGER NOT NULL,
-    PRIMARY KEY (id)
+    manager_id INTEGER,
+    department_id INTEGER NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES department(id),
+    PRIMARY KEY (id),
+    FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
