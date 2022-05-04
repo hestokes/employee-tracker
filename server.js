@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const express = require("express");
+// const express = require("express");
 require("console.table");
 
 const connection = mysql.createConnection({
@@ -33,8 +33,8 @@ startAdding = () => {
           "Add a department",
           "Add a role",
           "Add an employee",
-          "Update an employee's Role",
-          "Update an employee's Manager",
+          "Update an employees Role",
+          "Update an employees Manager",
           "Remove a department",
           "Remove a role",
           "Remove an employee",
@@ -43,8 +43,70 @@ startAdding = () => {
         ],
       },
     ])
-    .then((response) => {});
+    .then((response) => {
+      switch (response.optionMenu) {
+        case "View all departments":
+          viewAllDepartments();
+          break;
+        case "View all roles":
+          viewAllRoles();
+          break;
+        case "View all employees":
+          viewAllEmployees();
+          break;
+        case "View all employees by Manger":
+          viewEmployeesByManger();
+          break;
+        case "Add a department":
+          addDepartment();
+          break;
+        case "Add a role":
+          addARole();
+          break;
+        case "Add an employee":
+          addAnEmployee();
+          break;
+        case "Update an employee Role":
+          updateAnEmployeeRole();
+          break;
+        case "Update an employees Manager":
+          updateAnEmployeeManager();
+          break;
+        case "Remove a department":
+          removeDepartment();
+          break;
+        case "Remove a role":
+          removeRole();
+          break;
+        case "Remove an employee":
+          removeEmploy();
+          break;
+        case "View total salaries by department":
+          viewDepartmentSalary();
+          break;
+        case "Say goodbe for now":
+          connection.end();
+          console.log("\n Goodbye for now!");
+          return;
+        default:
+          break;
+      }
+    });
 };
+
+viewAllDepartments();
+viewAllRoles;
+viewAllEmployees;
+viewEmployeesByManger;
+addDepartment;
+addARole;
+addAnEmployee;
+updateAnEmployeeRole;
+updateAnEmployeeManager;
+removeDepartment;
+removeRole;
+removeEmploy;
+viewDepartmentSalary;
 
 // const PORT = process.env.PORT || 3001;
 // const app = express();
