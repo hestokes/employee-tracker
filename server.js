@@ -95,19 +95,22 @@ startAdding = () => {
 };
 
 viewAllDepartments = () => {
-  connection.query(`SELECT * FROM department ORDER BY id ASC;`, (err, res) => {
-    if (err) throw err;
-    console.table("\n", res, "\n");
-    startAdding();
-  });
+  connection.query(
+    `SELECT * FROM department ORDER BY department_id ASC;`,
+    (err, res) => {
+      if (err) throw err;
+      console.table("\n", res, "\n");
+      startAdding();
+    }
+  );
 };
 
 viewAllRoles = () => {
   connection.query(
-    `SELECT role.id, role.title, role.salary, department.department_name, department.id FROM role JOIN department ON role.id = department.id ORDER BY role.id ASC;`,
+    `SELECT role.role_id, role.title, role.salary, department.department_name, department.department_id FROM role JOIN department ON role.role_id = department.department_id ORDER BY role.role_id ASC;`,
     (err, res) => {
       if (err) throw err;
-      console.table("/n", res, "n");
+      console.table("\n", res, "\n");
       startAdding();
     }
   );
@@ -115,7 +118,7 @@ viewAllRoles = () => {
 
 viewAllEmployees = () => {
   connection.query(
-    `SELECT e.id, e.first_name, e.last_name, role.title, department.department_name, role.salary, CONCAT(m.first_name, ' ', m.last_name) manager FROM employee m RIGHT JOIN employee e ON e.manager_id = m.employee_id JOIN role ON e.role_id = role.id JOIN department ON department.id = role.department_id ORDER BY e.employee_id ASC;`,
+    `SELECT employee.employee_id, employee.first_name, employee.last_name, role.title, department.department_name, role.salary, CONCAT(m.first_name, ' ', m.last_name) manager FROM employee m RIGHT JOIN employee e ON e.manager_id = m.employee_id JOIN role ON e.role_id = role.role_id JOIN department ON department.department_id = role.department_id ORDER BY e.employee_id ASC;`,
     (err, res) => {
       if (err) throw err;
       console.table("\n", res, "\n");
