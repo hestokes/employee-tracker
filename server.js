@@ -66,7 +66,7 @@ startAdding = () => {
         case "Add an employee":
           addAnEmployee();
           break;
-        case "Update an employee Role":
+        case "Update an employees Role":
           updateAnEmployeeRole();
           break;
         case "Update an employees Manager":
