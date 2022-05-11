@@ -6,10 +6,10 @@ require("console.table");
 
 const connection = mysql.createConnection({
   host: "localhost",
-  port: 3001,
+  port: 3306,
   user: "root",
   password: process.env.password,
-  database: "employeetrackerDB;",
+  database: "employeetrackerDB",
 });
 
 connection.connect((err) => {
@@ -39,7 +39,7 @@ startAdding = () => {
           "Remove a role",
           "Remove an employee",
           "View total salaries by department",
-          "Say goodbe for now",
+          "Say goodbye for now",
         ],
       },
     ])
@@ -84,7 +84,7 @@ startAdding = () => {
         case "View total salaries by department":
           viewDepartmentSalary();
           break;
-        case "Say goodbe for now":
+        case "Say goodbye for now":
           connection.end();
           console.log("\n Goodbye for now!");
           return;
@@ -96,11 +96,11 @@ startAdding = () => {
 
 viewAllDepartments = () => {
   connection.query(
-    `SELECT * FROM department ORDER BY depart_id ASC;`,
+    `SELECT * FROM department ORDER BY department_id ASC;`,
     (err, res) => {
       if (err) throw err;
       console.table("\n", res, "\n");
-      startAdding();
+      startApp();
     }
   );
 };

@@ -4,7 +4,7 @@ USE employeetrackerDB;
 
 
 
-CREATE TABLE department (
+CREATE TABLE department ( 
     
     department_id INTEGER AUTO_INCREMENT PRIMARY KEY, 
     department_name VARCHAR(30)
