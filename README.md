@@ -26,10 +26,10 @@ Use for instance <https://github.com/ekalinin/github-markdown-toc>:
     - View All Employees
     - View All Roles
     - Create New Departments
-    - Create New Employees (to include salaries, departments)
+    - Create New Employees (to include salaries, departments, and salaries)
     - Create New roles
     - Remove Departments
-    - Remove employees
+    - Remove Employees
     - Review Total Salaries by Department
 
 ## Installation / Deployment
