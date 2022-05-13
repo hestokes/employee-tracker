@@ -35,4 +35,4 @@ VALUES
 ('Flipp', 'Pallot', 1, 4),
 ('Jumanji', 'Jones', 2, 4),
 ('Andy', 'Hughes', 4, 7),
-('Lindsay', 'Hagwood', 5, 7);
+('Lindsay', 'Hagwood', 5, 7)
